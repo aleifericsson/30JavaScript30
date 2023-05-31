@@ -42,8 +42,18 @@
 </style>
 
 <button></button>
-<script>
 
+
+<script>
+  function logText(e) {
+    console.log(this.classList.value);
+    e.stopPropagation(); //doesn't activate after first capture, (EVEN STOPS BOD!)
+  }
+  
+  const divlist = document.querySelectorAll('div');
+  divlist.forEach(div => div.addEventListener('click', logText,{capture:false}/*, once:true*/));//capture false: inside to outside click order, capture true: opposite
+  //if once is true, it will remove itself from event listener (so you can only click on it once, good for store checkouts)
+  document.body.addEventListener('click',logText);
 </script>
 </body>
 </html>

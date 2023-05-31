@@ -24,7 +24,7 @@ body,html {
   margin: 1rem;
   font-size: 1.5rem;
   padding: 1rem .5rem;
-  transition: all .07s ease;
+  transition: all .07s ease; /* AUTOMATIC TRANSITION TO .playing STATE, does so by changing the values incrementally automatically*/
   width: 10rem;
   text-align: center;
   color: white;
