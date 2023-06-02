@@ -27,6 +27,8 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display:flex;
+
     }
 
     .panel {
@@ -44,6 +46,11 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      flex: 1; /* will evenly distribute itself in the flex-container*/
+      display:flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -53,11 +60,17 @@
     .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
 
     /* Flex Children */
-    .panel > * {
+    .panel > * { /* selects all elements where the parent has class panel */
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
+      flex: 1 0 auto;
     }
+
+    .panel > *:first-child{ transform:translateY(-100%)} /*for starting the animation of it dropping/rising from the outside*/
+    .panel.open-active > *:first-child{ transform:translateY(0)} /*if it has the class open active, then set it to normal*/
+    .panel > *:last-child{transform:translateY(100%)}
+    .panel.open-active > *:last-child{ transform:translateY(0)}
 
     .panel p {
       text-transform: uppercase;
@@ -70,7 +83,8 @@
       font-size: 4em;
     }
 
-    .panel.open {
+    .panel.open { /* when it has the class of open, then it takes makes itself 5 times bigger or whatever*/
+      flex:5;
       font-size: 40px;
     }
 
@@ -106,7 +120,28 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll('.panel');
 
+    function toggleOpen(e){
+      this.classList.toggle('open');
+      panels.forEach(panel=>checkPanel(this,panel))
+    }
+
+    function toggleActive(e){
+      if(e.propertyName==="flex-grow")
+      {
+        this.classList.toggle('open-active');
+      }
+    }
+
+    function checkPanel(panel1,panel2){
+      if (panel1 !== panel2 && panel2.classList.contains("open")){
+        this.classList.remove("open");
+      }
+    }
+
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen)); //function called with ref instead of toggleOpen() so that it doesn't just run once
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive)); //on transend because we want the text to pop up only when the panel is fully open
   </script>
 
 

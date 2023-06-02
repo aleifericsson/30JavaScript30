@@ -13,7 +13,9 @@
     <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
 
     <label for="blur">Blur:</label>
-    <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+    <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px"> <!-- data sizing doesn't do anything here, it's basically a class
+                              (data-) and then call it anyhing to store an html "variable"
+    -->
 
     <label for="base">Base Color</label>
     <input id="base" type="color" name="base" value="#ffc600">
@@ -22,6 +24,22 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+    :root { /* like selecting html but with higher specificity */
+      --base:#ffc600; /* -- means that it is declaring a variable*/
+      --spacing:10px;
+      --blur:10px;
+    }
+
+    img {
+      padding: var(--spacing); /* var means calling a variable*/
+      background: var(--base);
+      filter:blur(var(--blur)); /* filter has other features like contrast and hue rotate!*/
+    }
+
+    .hl {
+      color:var(--base)
+    }
+
 
     /*
       misc styles, nothing to do with CSS variables
@@ -46,7 +64,18 @@
   </style>
 
   <script>
-  </script>
+    const inputlist=document.querySelectorAll(".controls input"); /* returns a node list which has less methods than an array*/
+
+    function handleUpdate(){
+      const suffix=this.dataset.sizing || ''; //dataset calls all data-* of the element in the form of an object
+      // || '' literally means or nothing so that suffix is '' if 'this' does not have the data-sizing attribute
+      document.documentElement.style.setProperty(`--${this.name}`,this.value+suffix)//documentElement: changes the root, the rest is pretty convoluted
+    }
+
+    inputlist.forEach(input => input.addEventListener("input", handleUpdate)); // "input" event happens when an input is used by a user
+
+
+  </script> <!-- ngl this code is messy af i wouldn't do this-->
 
 </body>
 </html>
