@@ -27,7 +27,22 @@
     </div>
 
   <script>
-    // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    const linkList = document.querySelectorAll('a');
+    const background = document.createElement('span'); //creates background/highlight that will go behind every link
+    background.classList.add('highlight'); //look in style.css to see how to style it cool.
+    document.body.append(background);
+
+    function setBackground(){
+      const rectProps = this.getBoundingClientRect(); //object with the link's botom, height, left, right, top & width
+      background.style.width = rectProps.width+'px';
+      background.style.height = rectProps.height+'px';
+      let trueY = rectProps.top + window.scrollY;
+      let trueX = rectProps.left + window.scrollX;
+      background.style.transform = "translate("+(trueX)+"px, "+(trueY)+"px)";
+    }
+
+    linkList.forEach(link => link.addEventListener('mouseenter',setBackground));
+
   </script>
 </body>
 </html>

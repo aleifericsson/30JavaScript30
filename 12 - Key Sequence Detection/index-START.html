@@ -7,6 +7,20 @@
     <link rel="icon" href="https://fav.farm/🔥" />
   </head>
   <body>
-    <script></script>
+    <script>
+
+      const keyarr = []
+      const code = "niru"
+
+      window.addEventListener('keyup',(e)=>{
+        keyarr.push(e.key)
+        keyarr.splice(-code.length -1, keyarr.length-code.length) //leave only the stuff after the 4th last element and delete the x-4 elements before it?
+        if (keyarr.join('').includes(code)){ //join('') means join the array with nothing between
+          console.log("my fav indian")
+          cornify_add()
+        }
+      })
+
+    </script>
   </body>
 </html>

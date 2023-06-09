@@ -7,7 +7,47 @@
 </head>
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
+
+
 <script>
+  const canvas = document.querySelector('#draw');
+  const ctx=canvas.getContext('2d');
+  canvas.width = window.innerWidth; //overwrites the 800x800 setting to make it however big the window is
+  canvas.height = window.innerHeight; 
+  ctx.strokeStyle="hsl(0,100%,50%)"; //starting color
+  ctx.lineJoin = 'round'; //you can guess but its VERY IMPMORTANT
+  ctx.lineCap = 'round'; //this too
+  ctx.lineWidth = 30;
+  ctx.globalCompositeOperation='luminosity'; //cool mix effect
+
+  let isDrawing = false;
+  let lastX = 0; //where to start the line from (mouse will be finishing point)
+  let lastY = 0;
+  let hue = 0;
+
+  function draw(e){ //function to handle where the mouse movements
+    if(!isDrawing) return; //if not mouse down do nothing
+    ctx.beginPath();
+    ctx.strokeStyle = `hsl(${hue},100%,50%)`;
+    hue++;//no need to set back to 360 technically because 361=1
+    ctx.moveTo(lastX,lastY); 
+    ctx.lineTo(e.offsetX,e.offsetY);
+    ctx.stroke();
+    lastX = e.offsetX;
+    lastY = e.offsetY;
+  }
+
+  function updatePos(e){
+    isDrawing = true;
+    [lastX,lastY] = [e.offsetX,e.offsetY]; //cool way fo setting 2 vars at once
+  }
+
+  
+
+  canvas.addEventListener('mousemove',draw);
+  canvas.addEventListener('mousedown',updatePos); //sets start pos to the start of where mouse was down
+  canvas.addEventListener('mouseup',()=>isDrawing=false);
+  canvas.addEventListener('mouseout',()=>isDrawing=false); //when mouse leaves window
 </script>
 
 <style>

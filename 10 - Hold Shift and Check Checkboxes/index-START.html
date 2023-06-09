@@ -97,6 +97,26 @@
   </div>
 
 <script>
+
+const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+  let lastChecked;
+
+  function handleCheck(e){
+    let inBetween = false;
+    if(e.shiftKey && this.checked){//both are boolean
+      checkboxes.forEach(checkbox=>{ //first loop: finds which boxes are in between using the "trigger/flag" var of inBetween
+        if(checkbox ===this || checkbox === lastChecked){//check for both cases in case of top to bottom or bottom totop
+          inBetween = !inBetween;
+        }
+        if(inBetween){  //might as well be a second loop 
+          checkbox.check = true;
+        }
+      }); //wow cool way of not needing to use indexes
+    }// homework: solve bugs and add the function for unchecking
+    lastChecked = this;
+  }
+
+  checkboxes.forEach(checkbox => checkbox.addEventListener('click',handleCheck));
 </script>
 </body>
 </html>
