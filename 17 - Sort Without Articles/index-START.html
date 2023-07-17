@@ -23,7 +23,7 @@
       font-size: 20px;
       background: white;
       width: 500px;
-      margin: auto;
+      margin: 20px auto;
       padding: 0;
       box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
     }
@@ -47,8 +47,37 @@
   <ul id="bands"></ul>
 
 <script>
-const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans',
+ 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog', 'Crush 40', 'Two Door Cinema Club', 'Daft Punk', 'Kessoku Band'];
 
+const bands_stripped = bands.map(band =>{
+  if (band.substring(0,4) === "The "){
+    return band.substring(4);
+  } else if(band.substring(0,3) === "An "){
+    return band.substring(3);
+  } else if (band.substring(0,2) === "A "){
+    return band.substring(2);
+  } else{
+    return band;
+  }
+});
+
+bands_stripped.sort();
+
+for (let i = 0; i<bands_stripped.length; i++){
+  bands.forEach(band=>{
+    if (band.includes(bands_stripped[i])){
+      bands_stripped[i] = band;
+    }
+  })
+}
+
+const the_list = document.querySelector("#bands");
+bands_stripped.forEach(band =>{
+  const node = document.createElement("li");
+  node.innerHTML = band;
+  the_list.appendChild(node);
+});
 
 </script>
 

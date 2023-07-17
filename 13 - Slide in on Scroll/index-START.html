@@ -44,7 +44,7 @@
   </div>
 
   <script>
-    function debounce(func, wait = 20, immediate = true) {
+    function debounce(func, wait = 20, immediate = true) { //run the function only once in however many milliseconds, take from internet, any works
       var timeout;
       return function() {
         var context = this, args = arguments;
@@ -58,6 +58,26 @@
         if (callNow) func.apply(context, args);
       };
     }
+
+    const img_list = document.querySelectorAll(".slide-in");
+
+    function checkScroll(e){
+      img_list.forEach(img=>{
+        const entryY = (window.scrollY + window.innerHeight)-img.height/2; //adds the pixels scrolled with window vh to get the height at the bottom of the page,
+        // then subtracts half the image's height
+        const img_bottom_Y = img.offsetTop + img.height //finds the Y coord of the bottom of the image
+        const is_shown = entryY > img.offsetTop;
+        const is_scrolled_past = window.scrollY > img_bottom_Y
+        if(is_shown && !is_scrolled_past)
+        {
+          img.classList.add('active');
+        } else {
+          img.classList.remove('active');
+        }
+      });
+    }
+
+    window.addEventListener("scroll", debounce(checkScroll));
 
   </script>
 
